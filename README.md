@@ -15,7 +15,7 @@ PHP is required to run this program and the use of command-line interface is nee
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/jasonpaulraj/silver-tribble.git
    ```
 2. Go into the directory & run the below command via CLI
    ```sh
