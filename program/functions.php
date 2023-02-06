@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/test_units.php';
+require __DIR__ . "/test_units.php";
 
 function runProgram($initial = true)
 {
@@ -14,7 +14,8 @@ function runProgram($initial = true)
 
         if ($menuchoice == 1) {
             runProgram();
-        } else {
+        }
+        else {
             exit();
         }
     }
@@ -31,7 +32,8 @@ function runProgram($initial = true)
 
     if ($menuchoice != 3) {
         echo "Selected choice: " . $menuchoice . "\n";
-    } else {
+    }
+    else {
         echo "Exit program ..\n";
     }
 
@@ -42,11 +44,14 @@ function runProgram($initial = true)
         echo "\n";
         runTests();
         exit();
-    } elseif ($menuchoice == 2) {
+    }
+    elseif ($menuchoice == 2) {
         runScript();
-    } elseif ($menuchoice == 3) {
+    }
+    elseif ($menuchoice == 3) {
         exit();
-    } else {
+    }
+    else {
         echo "\n";
         echo "Choice does not exist! Exitting ... \n";
         echo "\n";
@@ -61,43 +66,54 @@ function runScript()
 
     $text = trim(fgets(STDIN));
 
-    echo "\n";
-    echo "Input text: ";
-    echo "\n";
-    echo $text . "\n";
-    echo "\n";
-    echo "Processing.. \n";
+    if (!empty($text)) {
 
-    echo progress_bar(20, 100);
-    sleep(1);
-    echo progress_bar(40, 100);
-    sleep(1);
-    echo progress_bar(60, 100);
-    sleep(1);
-    echo progress_bar(80, 100);
-    sleep(1);
-    echo progress_bar(100, 100) . "\n";
-    echo "\n";
-    echo "\n";
+        echo "\n";
+        echo "Input text: ";
+        echo "\n";
+        echo $text . "\n";
+        echo "\n";
+        echo "Processing.. \n";
 
-    echo "1. Convert strings to uppercase: \n";
-    sleep(1);
-    echo uppercaseString($text) . "\n";
-    sleep(1);
-    echo "\n";
+        echo progress_bar(20, 100);
+        sleep(1);
+        echo progress_bar(40, 100);
+        sleep(1);
+        echo progress_bar(60, 100);
+        sleep(1);
+        echo progress_bar(80, 100);
+        sleep(1);
+        echo progress_bar(100, 100) . "\n";
+        echo "\n";
+        echo "\n";
 
-    echo "2. Convert the string to alternate upper and lower case: \n";
-    sleep(1);
-    echo alternatingString($text) . "\n";
-    echo "\n";
+        echo "1. Convert strings to uppercase: \n";
+        sleep(1);
+        echo uppercaseString($text) . "\n";
+        sleep(1);
+        echo "\n";
 
-    $csv = generateCSV($text);
-    sleep(1);
-    echo "\n";
-    echo "Result has been saved in CSV file! Path: " . $csv . "\n";
-    echo "\n";
+        echo "2. Convert the string to alternate upper and lower case: \n";
+        sleep(1);
+        echo alternatingString($text) . "\n";
+        echo "\n";
 
-    runProgram(false);
+        $csv = generateCSV($text);
+        sleep(1);
+        echo "\n";
+        echo "Result has been saved in CSV file! Path: " . $csv . "\n";
+        echo "\n";
+
+        runProgram(false);
+    }
+    else {
+        echo "No input text found!";
+        exit();
+    }
+
+
+
+
 }
 
 function progress_bar($done, $total, $info = "", $width = 50)
@@ -119,13 +135,13 @@ function uppercaseString($text)
 function alternatingString($text)
 {
     if ($text !== "") {
-        $result = '';
-        $vals = explode(' ', $text); // cater for multiple strings
+        $result = "";
+        $vals = explode(" ", $text);
         foreach ($vals as $val) {
-            $val = str_split($val); // convert every string to its own set of arrays
-            $newVal = '';
+            $val = str_split($val);
+            $newVal = "";
             foreach ($val as $key => $_val) {
-                $key % 2 == 0 ? $newVal .= strtoupper($_val) : $newVal .= strtolower($_val); // alternating uppercase / lowercase characters
+                $key % 2 == 0 ? $newVal .= strtoupper($_val) : $newVal .= strtolower($_val);
             }
 
             $result .= $newVal . " ";
@@ -139,14 +155,14 @@ function alternatingString($text)
 function generateCSV($text)
 {
     if ($text !== "") {
-        if (!file_exists('downloads')) {
-            mkdir('downloads', 0777, true);
+        if (!file_exists("downloads")) {
+            mkdir("downloads", 0777, true);
         }
-        $filePath = 'downloads/output_' . date('YmdHis') . '.csv';
-        $_string = str_split($text); // convert all strings and spaces into set of array values
+        $filePath = "downloads/output_" . date("YmdHis") . ".csv";
+        $_string = str_split($text);
         if (count($_string) > 0) {
 
-            $fp = fopen($filePath, 'w');
+            $fp = fopen($filePath, "w");
             fputcsv($fp, $_string);
             fclose($fp);
 
