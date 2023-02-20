@@ -7,15 +7,14 @@ function runProgram($initial = true)
     if ($initial == false) {
         echo "Press 1 to go back to menu or 2 to exit. \n";
         echo "1. Go back to menu\n";
-        echo "2. Exit\n";
+        echo "2. Exit Program\n";
         echo "\n";
 
         $menuchoice = trim(fgets(STDIN));
 
         if ($menuchoice == 1) {
             runProgram();
-        }
-        else {
+        } else {
             exit();
         }
     }
@@ -32,9 +31,9 @@ function runProgram($initial = true)
 
     if ($menuchoice != 3) {
         echo "Selected choice: " . $menuchoice . "\n";
-    }
-    else {
-        echo "Exit program ..\n";
+    } else {
+        echo "Exitting program ..\n";
+        exit();
     }
 
     echo "\n";
@@ -43,19 +42,27 @@ function runProgram($initial = true)
         echo "Running test cases... \n";
         echo "\n";
         runTests();
-        exit();
-    }
-    elseif ($menuchoice == 2) {
+        echo "\n";
+        echo "Running test cases complete... \n";
+        echo "\n";
+        echo "The program will now exit... \n";
+        echo "\n";
+        runProgram($initial = true);
+        echo "\n";
+    } elseif ($menuchoice == 2) {
         runScript();
-    }
-    elseif ($menuchoice == 3) {
-        exit();
-    }
-    else {
+    } elseif ($menuchoice == 3) {
         echo "\n";
-        echo "Choice does not exist! Exitting ... \n";
+        echo "The program will exit... \n";
         echo "\n";
-        exit;
+        runProgram($initial = true);
+        echo "\n";
+    } else {
+        echo "\n";
+        echo "Selected choice does not exist! ... \n";
+        echo "\n";
+        runProgram($initial = true);
+        echo "\n";
     }
 }
 
@@ -105,15 +112,10 @@ function runScript()
         echo "\n";
 
         runProgram(false);
-    }
-    else {
+    } else {
         echo "No input text found!";
         exit();
     }
-
-
-
-
 }
 
 function progress_bar($done, $total, $info = "", $width = 50)
@@ -125,50 +127,57 @@ function progress_bar($done, $total, $info = "", $width = 50)
 
 function uppercaseString($text)
 {
-    if ($text !== "") {
-        return strtoupper($text);
+    try {
+        if (!is_null($text) && !empty($text)) {
+            $result =  strtoupper($text);
+            return $result;
+        }
+    } catch (Exception $e) {
+        return $e->getMessage();
     }
-
-    return 0;
 }
 
 function alternatingString($text)
 {
-    if ($text !== "") {
-        $result = "";
-        $vals = explode(" ", $text);
-        foreach ($vals as $val) {
-            $val = str_split($val);
-            $newVal = "";
-            foreach ($val as $key => $_val) {
-                $key % 2 == 0 ? $newVal .= strtoupper($_val) : $newVal .= strtolower($_val);
+    try {
+        if (!is_null($text) && !empty($text)) {
+            $result = "";
+            $vals = explode(" ", $text);
+            foreach ($vals as $val) {
+                $val = str_split($val);
+                $newVal = "";
+                foreach ($val as $key => $_val) {
+                    $key % 2 == 0 ? $newVal .= strtoupper($_val) : $newVal .= strtolower($_val);
+                }
+
+                $result .= $newVal . " ";
             }
-
-            $result .= $newVal . " ";
+            return $result;
         }
-        return $result;
+    } catch (Exception $e) {
+        return $e->getMessage();
     }
-
-    return 0;
 }
 
 function generateCSV($text)
 {
-    if ($text !== "") {
-        if (!file_exists("downloads")) {
-            mkdir("downloads", 0777, true);
-        }
-        $filePath = "downloads/output_" . date("YmdHis") . ".csv";
-        $_string = str_split($text);
-        if (count($_string) > 0) {
+    try {
+        if (!is_null($text) && !empty($text)) {
+            if (!file_exists("downloads")) {
+                mkdir("downloads", 0777, true);
+            }
+            $filePath = "downloads/output_" . date("YmdHis") . ".csv";
+            $_string = str_split($text);
+            if (count($_string) > 0) {
 
-            $fp = fopen($filePath, "w");
-            fputcsv($fp, $_string);
-            fclose($fp);
+                $fp = fopen($filePath, "w");
+                fputcsv($fp, $_string);
+                fclose($fp);
 
-            return $filePath;
+                return $filePath;
+            }
         }
+    } catch (Exception $e) {
+        return $e->getMessage();
     }
-
-    return 0;
 }
